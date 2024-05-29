@@ -1,14 +1,16 @@
-import { Box, Button, FormControl, FormLabel, Input, VStack } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input, VStack, List, ListItem, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 const TrackWorkout = () => {
   const [exercise, setExercise] = useState("");
   const [duration, setDuration] = useState("");
   const [calories, setCalories] = useState("");
+  const [workouts, setWorkouts] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Workout tracked:", { exercise, duration, calories });
+    const newWorkout = { exercise, duration, calories };
+    setWorkouts([...workouts, newWorkout]);
     // Reset form fields
     setExercise("");
     setDuration("");
@@ -34,6 +36,18 @@ const TrackWorkout = () => {
           Track Workout
         </Button>
       </VStack>
+      <Box mt={8}>
+        <Text fontSize="xl" fontWeight="bold">Logged Workouts</Text>
+        <List spacing={3}>
+          {workouts.map((workout, index) => (
+            <ListItem key={index} borderWidth="1px" borderRadius="lg" p={4}>
+              <Text><strong>Exercise:</strong> {workout.exercise}</Text>
+              <Text><strong>Duration:</strong> {workout.duration} minutes</Text>
+              <Text><strong>Calories:</strong> {workout.calories} kcal</Text>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Box>
   );
 };
